@@ -1,4 +1,4 @@
-import i18n from "i18next";
+import i18n, { t } from "i18next";
 import { initReactI18next } from "react-i18next";
 import { getSavedLang } from "./langStore";
  
@@ -87,6 +87,25 @@ i18n.use(initReactI18next).init({
               title: "Already have an account?",
               link: "Sign In"
             }
+          },
+          forgotPasswordScreen: {
+            title: "Forgot Password?",
+            subtitle: "Enter your email address to receive a password reset link.",
+            form: {
+              inputEmail: {
+                label: "Email",
+                placeholder: "Enter your email",
+                validation: {
+                  required: "Email is required",
+                  invalid: "Please enter a valid email address"
+                }
+              },
+            },
+            btn:{
+              send: "Send Link",
+              sending: "Sending..."
+            },
+            backToLogin: "Back to Login"
           },
           logout: "Logout",
           quickAdd: "Quick Add",
@@ -188,6 +207,25 @@ i18n.use(initReactI18next).init({
               title: "¿Ya tienes una cuenta?",
               link: "Iniciar sesión"
             }
+          },
+          forgotPasswordScreen: {
+            title: "¿Olvidaste tu contraseña?",
+            subtitle: "Ingresa tu correo para recibir un enlace de restablecimiento de contraseña.",
+            form: {
+              inputEmail: {
+                label: "Correo",
+                placeholder: "Ingresa tu correo",
+                validation: {
+                  required: "El correo es requerido",
+                  invalid: "Por favor, ingresa un correo válido"
+                }
+              },
+            },
+            btn:{
+              send: "Enviar enlace",
+              sending: "Enviando..."
+            },
+            backToLogin: "Volver al inicio de sesión"
           },
           logout: "Salir",
           quickAdd: "Agregar rápido",

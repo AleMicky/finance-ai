@@ -6,11 +6,13 @@ import { MyButton, MyTextInput } from '../components';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ForgotForm, forgotSchema } from '../schemas/forgot.schema';
+import { useTranslation } from 'react-i18next';
 
 
 export const ForgotPasswordScreen = () => {
 
   const navigate = useNavigation();
+  const { t } = useTranslation();
 
   const {
     control,
@@ -57,9 +59,9 @@ export const ForgotPasswordScreen = () => {
               <Ionicons name="lock-closed-outline" size={28} color="#1976FF" />
             </View>
 
-            <Text style={styles.title}>Forgot Password?</Text>
+            <Text style={styles.title}>{t("ui.forgotPasswordScreen.title")}</Text>
             <Text style={styles.subtitle}>
-              Enter your email address to receive a password reset link.
+              {t("ui.forgotPasswordScreen.subtitle")}
             </Text>
           </View>
 
@@ -69,7 +71,8 @@ export const ForgotPasswordScreen = () => {
             name="email"
             render={({ field: { value, onChange, onBlur } }) => (
               <MyTextInput
-                label="Email"
+                label={t("ui.forgotPasswordScreen.form.inputEmail.label")}
+                placeholder={t("ui.forgotPasswordScreen.form.inputEmail.placeholder")}
                 icon="mail-outline"
                 value={value}
                 onChangeText={onChange}
@@ -84,7 +87,7 @@ export const ForgotPasswordScreen = () => {
 
           <View style={{ marginTop: 16 }}>
             <MyButton
-              title={isSubmitting ? "Sending..." : "Send Link"}
+              title={isSubmitting ? t("ui.forgotPasswordScreen.btn.sending") : t("ui.forgotPasswordScreen.btn.send")}
               onPress={handleSubmit(onSubmit)}
               disabled={!isValid || isSubmitting}
             />
@@ -94,7 +97,7 @@ export const ForgotPasswordScreen = () => {
           <View style={styles.bottom}>
             <Pressable style={styles.backToLogin} onPress={() => navigate.goBack()}>
               <Ionicons name="arrow-back-outline" size={16} color="#137FEC" />
-              <Text style={styles.backToLoginText}>Back to Login</Text>
+              <Text style={styles.backToLoginText}>{t("ui.forgotPasswordScreen.backToLogin")}</Text>
             </Pressable>
           </View>
 
