@@ -44,7 +44,9 @@ export function AppNavigator() {
             <Stack.Screen name="Login" options={{ headerShown: false }}>
               {(props) => <LoginScreen {...props} onAuthed={() => setAuthed(true)} />}
             </Stack.Screen>
-            <Stack.Screen name="SignUp" options={{ headerShown: false }} component={SignUpScreen} />
+            <Stack.Screen name="SignUp" options={{ headerShown: false }} >
+              {(props) => <SignUpScreen {...props} onAuthed={() => setAuthed(true)} />}
+            </Stack.Screen>
             <Stack.Screen name="ForgotPassword" options={{ headerShown: false }} component={ForgotPasswordScreen} />
           </>
         ) : (

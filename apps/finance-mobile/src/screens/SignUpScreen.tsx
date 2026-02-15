@@ -1,24 +1,42 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Alert, Pressable } from 'react-native'
 import { Ionicons } from "@expo/vector-icons";
 import { MyButton, MyTextInput } from '../components';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { Controller, useForm } from 'react-hook-form';
+import { SignUpForm, signUpSchema } from '../schemas/sign-up.schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { register } from '../api/auth';
+import { setToken } from '../auth/tokenStore';
 
 
-export const SignUpScreen = () => {
-
-    const [fullName, setFullName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+export const SignUpScreen = ({ onAuthed }: { onAuthed: () => void }) => {
 
     const { t } = useTranslation();
 
-
     const navigate = useNavigation();
 
-    const onSubmit = () => {
-        Alert.alert("Sign Up", "Full Name: " + fullName + "\nEmail: " + email + "\nPassword: " + password);
+
+    const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm<SignUpForm>({
+        resolver: zodResolver(signUpSchema),
+        defaultValues: {
+            fullName: "",
+            email: "",
+            password: ""
+        }
+    });
+
+    const onSubmit = async (values: SignUpForm) => {
+        try {
+            const data = await register(values.fullName, values.email, values.password);
+            await setToken(data.accessToken);
+            onAuthed();
+        }
+        catch (e: any) {
+            Alert.alert("Error", e?.response?.data?.message ?? "No se pudo registrar el usuario");
+        }
+
     }
 
     return (
@@ -38,37 +56,62 @@ export const SignUpScreen = () => {
                     <Text style={styles.title}>{t("ui.SignUpScreen.title")}</Text>
                     <Text style={styles.subtitle}>{t("ui.SignUpScreen.subtitle")}</Text>
 
-                    <MyTextInput
-                        label={t("ui.SignUpScreen.form.inputFullName.label")}
-                        icon="person-outline"
-                        placeholder={t("ui.SignUpScreen.form.inputFullName.placeholder")}
-                        value={fullName}
-                        onChangeText={setFullName}
-                        placeholderTextColor="#94A3B8"
+
+                    {/* Form */}
+
+                    <Controller
+                        control={control}
+                        name="fullName"
+                        render={({ field: { onChange, value } }) => (
+                            <MyTextInput
+                                label={t("ui.SignUpScreen.form.inputFullName.label")}
+                                styleLabel={{ marginTop: 16 }}
+                                icon="person-outline"
+                                placeholder={t("ui.SignUpScreen.form.inputFullName.placeholder")}
+                                value={value}
+                                onChangeText={onChange}
+                                placeholderTextColor="#94A3B8"
+                                errorText={errors.fullName?.message}
+                            />
+                        )}
                     />
 
-                    <MyTextInput
-                        label={t("ui.SignUpScreen.form.inputEmail.label")}
-                        styleLabel={{ marginTop: 16 }}
-                        icon="mail-outline"
-                        placeholder={t("ui.SignUpScreen.form.inputEmail.placeholder")}
-                        keyboardType="email-address"
-                        value={email}
-                        onChangeText={setEmail}
-                        placeholderTextColor="#94A3B8"
-                        autoCapitalize="none"
+                    <Controller
+                        control={control}
+                        name="email"
+                        render={({ field: { onChange, value } }) => (
+                            <MyTextInput
+                                label={t("ui.SignUpScreen.form.inputEmail.label")}
+                                styleLabel={{ marginTop: 16 }}
+                                icon="mail-outline"
+                                placeholder={t("ui.SignUpScreen.form.inputEmail.placeholder")}
+                                keyboardType="email-address"
+                                value={value}
+                                onChangeText={onChange}
+                                placeholderTextColor="#94A3B8"
+                                autoCapitalize="none"
+                                errorText={errors.email?.message}
+                            />
+                        )}
                     />
 
-                    <MyTextInput
-                        label={t("ui.SignUpScreen.form.inputPassword.label")}
-                        placeholder={t("ui.SignUpScreen.form.inputPassword.placeholder")}
-                        styleLabel={{ marginTop: 16 }}
-                        icon="lock-closed-outline"
-                        value={password}
-                        onChangeText={setPassword}
-                        placeholderTextColor="#94A3B8"
-                        password={true}
-                    />
+                    <Controller
+                        control={control}
+                        name="password"
+                        render={({ field: { onChange, value } }) => (
+                            <MyTextInput
+                                label={t("ui.SignUpScreen.form.inputPassword.label")}
+                                placeholder={t("ui.SignUpScreen.form.inputPassword.placeholder")}
+                                styleLabel={{ marginTop: 16 }}
+                                icon="lock-closed-outline"
+                                value={value}
+                                onChangeText={onChange}
+                                placeholderTextColor="#94A3B8"
+                                password={true}
+                                errorText={errors.password?.message}
+                            />
+                        )} />
+
                     <Text style={styles.terms}>
                         {t("ui.SignUpScreen.terms.message")}
                         <Text style={styles.link} onPress={() => Alert.alert("Terms of Service")}>
@@ -80,10 +123,10 @@ export const SignUpScreen = () => {
                         </Text>
                         {t("ui.SignUpScreen.terms.dot")}
                     </Text>
-                    
+
                     <MyButton
-                        title={t("ui.SignUpScreen.btn.register")}
-                        onPress={onSubmit}
+                        title={isSubmitting ? t("ui.SignUpScreen.btn.registering") : t("ui.SignUpScreen.btn.register")}
+                        onPress={handleSubmit(onSubmit)}
                     />
 
                     <View style={styles.footerRow}>
