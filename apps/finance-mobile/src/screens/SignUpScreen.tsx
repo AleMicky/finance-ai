@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Ale
 import { Ionicons } from "@expo/vector-icons";
 import { MyButton, MyTextInput } from '../components';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 
 export const SignUpScreen = () => {
@@ -10,6 +11,9 @@ export const SignUpScreen = () => {
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const { t } = useTranslation();
+
 
     const navigate = useNavigation();
 
@@ -31,23 +35,23 @@ export const SignUpScreen = () => {
                     <View style={styles.appIcon}>
                         <Ionicons name="person-add-outline" size={24} color="#1976FF" />
                     </View>
-                    <Text style={styles.title}>Create Account</Text>
-                    <Text style={styles.subtitle}>Join our community and start your{"\n"}journey today.</Text>
+                    <Text style={styles.title}>{t("ui.SignUpScreen.title")}</Text>
+                    <Text style={styles.subtitle}>{t("ui.SignUpScreen.subtitle")}</Text>
 
                     <MyTextInput
-                        label="Full Name"
+                        label={t("ui.SignUpScreen.form.inputFullName.label")}
                         icon="person-outline"
-                        placeholder="Enter your full name"
+                        placeholder={t("ui.SignUpScreen.form.inputFullName.placeholder")}
                         value={fullName}
                         onChangeText={setFullName}
                         placeholderTextColor="#94A3B8"
                     />
 
                     <MyTextInput
-                        label="Email"
+                        label={t("ui.SignUpScreen.form.inputEmail.label")}
                         styleLabel={{ marginTop: 16 }}
                         icon="mail-outline"
-                        placeholder="Enter your email"
+                        placeholder={t("ui.SignUpScreen.form.inputEmail.placeholder")}
                         keyboardType="email-address"
                         value={email}
                         onChangeText={setEmail}
@@ -56,7 +60,8 @@ export const SignUpScreen = () => {
                     />
 
                     <MyTextInput
-                        label="Password"
+                        label={t("ui.SignUpScreen.form.inputPassword.label")}
+                        placeholder={t("ui.SignUpScreen.form.inputPassword.placeholder")}
                         styleLabel={{ marginTop: 16 }}
                         icon="lock-closed-outline"
                         value={password}
@@ -65,24 +70,26 @@ export const SignUpScreen = () => {
                         password={true}
                     />
                     <Text style={styles.terms}>
-                        By registering, you agree to our{" "}
+                        {t("ui.SignUpScreen.terms.message")}
                         <Text style={styles.link} onPress={() => Alert.alert("Terms of Service")}>
-                            Terms of Service
+                            {t("ui.SignUpScreen.terms.terms")}
                         </Text>{" "}
-                        and{" "}
+                        {t("ui.SignUpScreen.terms.and")}{" "}
                         <Text style={styles.link} onPress={() => Alert.alert("Privacy Policy")}>
-                            Privacy Policy
+                            {t("ui.SignUpScreen.terms.privacy")}
                         </Text>
-                        .
+                        {t("ui.SignUpScreen.terms.dot")}
                     </Text>
+                    
                     <MyButton
-                        title="Register"
+                        title={t("ui.SignUpScreen.btn.register")}
                         onPress={onSubmit}
                     />
+
                     <View style={styles.footerRow}>
-                        <Text style={styles.footerText}>Already have an account?</Text>
+                        <Text style={styles.footerText}>{t("ui.SignUpScreen.login.title")}</Text>
                         <Pressable onPress={() => navigate.goBack()}>
-                            <Text style={styles.footerLink}> Sign In</Text>
+                            <Text style={styles.footerLink}> {t("ui.SignUpScreen.login.link")}</Text>
                         </Pressable>
                     </View>
                 </View>

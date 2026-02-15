@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { getSavedLang } from "./langStore";
-
+ 
 i18n.use(initReactI18next).init({
   lng: "es", // default
   fallbackLng: "en",
@@ -43,6 +43,50 @@ i18n.use(initReactI18next).init({
             titleSignUp: "Don't have an account?",
             linkSignUp: "Sign Up",
             sending: "Sending...",
+          },
+          SignUpScreen: {
+            title: "Create Account",
+            subtitle: "Join BudgetAI to take control of your finances",
+            form: {
+              inputFullName: {
+                label: "Full Name",
+                placeholder: "Enter your full name",
+                validation: {
+                  required: "Full name is required"
+                }
+              },
+              inputEmail: {
+                label: "Email",
+                placeholder: "Enter your email",
+                validation: {
+                  required: "Email is required",
+                  invalid: "Please enter a valid email address"
+                }
+              },
+              inputPassword: {
+                label: "Password",
+                placeholder: "Enter your password",
+                validation: {
+                  required: "Password is required",
+                  min: "Password must be at least 6 characters"
+                }
+              },
+            },
+            terms: {
+              message: "By signing up, you agree to our ",
+              terms: "Terms of Service",
+              and: " and ",
+              privacy: "Privacy Policy",
+              dot: "."
+            },
+            btn:{
+              register: "Register",
+              registering: "Registering..."
+            },
+            login:{
+              title: "Already have an account?",
+              link: "Sign In"
+            }
           },
           logout: "Logout",
           quickAdd: "Quick Add",
@@ -100,6 +144,50 @@ i18n.use(initReactI18next).init({
             titleSignUp: "¿No tienes una cuenta?",
             linkSignUp: "Regístrate",
             sending: "Enviando...",
+          },
+          SignUpScreen: {
+            title: "Crear cuenta",
+            subtitle: "Únete a BudgetAI para tomar el control de tus finanzas",
+            form: {
+              inputFullName: {
+                label: "Nombre completo",
+                placeholder: "Ingresa tu nombre completo",
+                validation: {
+                  required: "El nombre completo es requerido"
+                }
+              },
+              inputEmail: {
+                label: "Correo",
+                placeholder: "Ingresa tu correo",
+                validation: {
+                  required: "El correo es requerido",
+                  invalid: "Por favor, ingresa un correo válido"
+                }
+              },
+              inputPassword: {
+                label: "Contraseña",
+                placeholder: "Ingresa tu contraseña",
+                validation: {
+                  required: "La contraseña es requerida",
+                  tooShort: "La contraseña debe tener al menos 6 caracteres"
+                }
+              },
+            },
+            terms: {
+              message: "Al registrarte, aceptas nuestros ",
+              terms: "Términos de servicio",
+              and: " y ",
+              privacy: "Política de privacidad",
+              dot: "."
+            },
+            btn:{
+              register: "Registrarse",
+              registering: "Registrando..."
+            },
+            login:{
+              title: "¿Ya tienes una cuenta?",
+              link: "Iniciar sesión"
+            }
           },
           logout: "Salir",
           quickAdd: "Agregar rápido",
