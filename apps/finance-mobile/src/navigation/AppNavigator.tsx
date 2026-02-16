@@ -5,17 +5,15 @@ import { getToken } from "../auth/tokenStore";
 import { setUnauthorizedHandler } from "../api/client";
 
 import { LoginScreen } from "../screens/LoginScreen";
-import { HomeScreen } from "../screens/HomeScreen";
-import { DashboardScreen } from "../screens/DashboardScreen";
 import { SignUpScreen } from "../screens/SignUpScreen";
 import { ForgotPasswordScreen } from "../screens/ForgotPasswordScreen";
+import MainTabs from "./MainTabs";
 
 export type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
   ForgotPassword: undefined;
-  Home: undefined;
-  Dashboard: undefined;
+  App: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -47,15 +45,16 @@ export function AppNavigator() {
             <Stack.Screen name="SignUp" options={{ headerShown: false }} >
               {(props) => <SignUpScreen {...props} onAuthed={() => setAuthed(true)} />}
             </Stack.Screen>
-            <Stack.Screen name="ForgotPassword" options={{ headerShown: false }} component={ForgotPasswordScreen} />
+            <Stack.Screen
+              name="ForgotPassword"
+              options={{ headerShown: false }}
+              component={ForgotPasswordScreen}
+            />
           </>
         ) : (
-          <>
-            <Stack.Screen name="Home" options={{ title: "Finance AI" }}>
-              {(props) => <HomeScreen {...props} onLogout={() => setAuthed(false)} />}
-            </Stack.Screen>
-            <Stack.Screen name="Dashboard" options={{ title: "Dashboard" }} component={DashboardScreen} />
-          </>
+          <Stack.Screen name="App" options={{ headerShown: false }}>
+            {() => <MainTabs onLogout={() => setAuthed(false)} />}
+          </Stack.Screen>
         )}
       </Stack.Navigator>
     </NavigationContainer>
