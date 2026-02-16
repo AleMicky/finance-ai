@@ -407,8 +407,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
     fontWeight: "600",
   },
-
-  // (No lo usas aquí, pero lo dejo porque estaba en tu base)
   navItem: { alignItems: "center", gap: 4, width: 64 },
   navText: { fontSize: 10, fontWeight: "900", color: stylesVars.navMuted },
   navTextActive: { color: stylesVars.primary },
